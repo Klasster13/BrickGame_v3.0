@@ -1,0 +1,4 @@
+﻿
+using ConsoleView;
+
+View.Start();

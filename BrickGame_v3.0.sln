@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Race", "brick_game\Race\Race.csproj", "{87F3E7D7-2701-423A-8D82-774A43325215}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleView", "gui\ConsoleView\ConsoleView.csproj", "{366CAD76-24DE-4454-A8F1-072456EE165C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87F3E7D7-2701-423A-8D82-774A43325215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F3E7D7-2701-423A-8D82-774A43325215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87F3E7D7-2701-423A-8D82-774A43325215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87F3E7D7-2701-423A-8D82-774A43325215}.Release|Any CPU.Build.0 = Release|Any CPU
+		{366CAD76-24DE-4454-A8F1-072456EE165C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{366CAD76-24DE-4454-A8F1-072456EE165C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{366CAD76-24DE-4454-A8F1-072456EE165C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{366CAD76-24DE-4454-A8F1-072456EE165C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B89ABFB3-B238-4434-B50D-DD68F3DF7898}
+	EndGlobalSection
+EndGlobal
