@@ -12,10 +12,7 @@ public class View
 
         while (true)
         {
-
             var userAction = GetAction();
-            //var delayTask = Task.Delay(300);
-            //delayTask.Wait();
 
             if (userAction == Race.Enums.UserAction.Terminate)
             {
@@ -25,6 +22,8 @@ public class View
             var data = race.UpdateCurrentState();
 
             PrintGame(data);
+            var delayTask = Task.Delay(100);
+            delayTask.Wait();
         }
 
         Console.Clear();
@@ -36,7 +35,7 @@ public class View
 
     public static Race.Enums.UserAction GetAction()
     {
-        //if (Console.KeyAvailable)
+        if (Console.KeyAvailable)
         {
             var key = Console.ReadKey(true);
 

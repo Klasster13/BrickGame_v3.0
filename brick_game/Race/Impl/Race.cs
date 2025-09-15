@@ -1,5 +1,6 @@
 ﻿using Race.Enums;
 using Race.Models;
+using System.Diagnostics;
 
 namespace Race.Impl;
 
@@ -15,7 +16,8 @@ public class Race : IModel
     private State State { get; set; }
     private int SpaceBetweenCars { get; set; }
     private int FenceOffset { get; set; }
-
+    private Stopwatch? Timer { get; set; }
+    private long Timeout { get; set; }
 
 
     public Race()
@@ -33,19 +35,16 @@ public class Race : IModel
     }
 
 
-
-
-
     private Action?[][] CreateActions() =>
     [
         // START
         [Start, null, null, null, null, null, null, null, null],
         // MOVE LEFT/RIGHT
-        [Reset, Pause, Exit, MoveLeft, MoveRight, Shift, null, null, null],
+        [Reset, Pause, Exit, MoveLeft, MoveRight, SpeedUp, null, null, null],
         // SHIFT UP CAR
-        [Shift, Shift, Shift, Shift, Shift, Shift, Shift, Shift, null],
+        [Shift, Shift, Shift, Shift, Shift, Shift, Shift, Shift, Shift],
         // PAUSE
-        [Continue, Continue, Continue, Continue, Continue, Continue, Continue, Continue, Continue],
+        [Continue, Continue, Continue, Continue, Continue, Continue, Continue, Continue, null],
         // GAMEOVER
         [Reset, GameOver, GameOver, GameOver, GameOver, GameOver, GameOver, GameOver, GameOver],
         // GAMEOVER
@@ -104,14 +103,32 @@ public class Race : IModel
             }
         }
 
-
         return info;
     }
 
 
-    public void UserInput(UserAction action, bool hold) => GetAction(State, action)?.Invoke();
-    private Action? GetAction(State state, UserAction action) => Actions[(int)state][(int)action];
-    private void Start() => State = State.Moving;
+    public void UserInput(UserAction action, bool hold)
+    {
+        CheckTimer();
+        Actions[(int)State][(int)action]?.Invoke();
+    }
+
+
+    private void CheckTimer()
+    {
+        if (Timer?.ElapsedMilliseconds >= Timeout && State != State.GameOver)
+        {
+            State = State.Shifting;
+        }
+    }
+
+
+    private void Start()
+    {
+        Timer = Stopwatch.StartNew();
+        State = State.Moving;
+    }
+
 
     private void Shift()
     {
@@ -119,7 +136,7 @@ public class Race : IModel
         foreach (var car in EnemiesCars)
         {
             foreach (var (Y, X) in car.Points)
-            {                
+            {
                 if (CheckCollideWithMyCar(Y + dy, X))
                 {
                     State = State.GameOver;
@@ -139,6 +156,8 @@ public class Race : IModel
         CountScore();
         SpawnEnemyCar();
         FenceOffset = (FenceOffset + 3) % (Options.FenceLength + Options.FenceSpace);
+        State = State.Moving;
+        Timer?.Restart();
     }
 
 
@@ -189,26 +208,34 @@ public class Race : IModel
 
 
     private void SpeedUp() { }
-    private void GameOver() { }
+
+
+    private void GameOver()
+    {
+        Timer?.Reset();
+        Level = -1;
+    }
 
 
     // ADD TIMER
-    private void Pause() => State = State.Pause;
-    private void Continue() => State = State.Moving;
+    private void Pause()
+    {
+        State = State.Pause;
+        Timer?.Stop();
+    }
 
 
+    private void Continue()
+    {
+        State = State.Moving;
+        Timer?.Start();
+    }
 
 
+    // TODO
     private void Exit() { }
 
 
-    //private bool CheckTimer()
-    //{
-
-    //}
-
-    // TODO FIX COLLISION
-    //private bool CheckCollideWithEnemiesCars(int y, int x) => EnemiesCars.Any(car => car.Points.Contains((y, x)));
     private bool CheckCollideWithEnemiesCars(int y, int x)
     {
         foreach (var car in EnemiesCars)
@@ -220,15 +247,15 @@ public class Race : IModel
         }
         return false;
     }
-    // TODO FIX COLLISION
-    //private bool CheckCollideWithMyCar(int y, int x) => MyCar.Points.Contains((y, x));
+
+
     private bool CheckCollideWithMyCar(int y, int x)
-    {        
-            if (MyCar.Points.Any(p => p.Y == y) && MyCar.Points.Any(p => p.X == x))
-            {
-                return true;
-            }
-        
+    {
+        if (MyCar.Points.Any(p => p.Y == y) && MyCar.Points.Any(p => p.X == x))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -236,11 +263,27 @@ public class Race : IModel
     private void CountScore()
     {
         Score += EnemiesCars.RemoveAll(car => car.Points.TrueForAll(p => p.Y >= Options.Height));
-        if (Score > HighScore)
-        {
-            HighScore = Score;
-        }
+        UpdateHighScore();
+        UpdateLevel();
     }
+
+
+    private void UpdateHighScore() => HighScore = Math.Max(HighScore, Score);
+
+
+    private void UpdateLevel()
+    {
+        if (Score < Level * Options.PointsPerLevel)
+        {
+            return;
+        }
+
+        Level = Math.Min(Level + 1, Options.MaxLevelNumber);
+        Speed = Level;
+    }
+
+
+    private void UpdateTimeout() => Timeout = Options.BaseTimeout - (Speed * Options.SpeedUpPerLevel);
 
     private void Reset()
     {
