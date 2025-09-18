@@ -1,4 +1,4 @@
 ﻿
 using ConsoleView;
 
-View.Start();
+await View.Start();

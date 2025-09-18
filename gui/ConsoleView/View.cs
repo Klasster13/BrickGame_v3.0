@@ -4,15 +4,21 @@ namespace ConsoleView;
 
 public class View
 {
-    public static void Start()
+    public static async Task Start()
     {
         IModel race = new Race.Impl.Race();
-
         PrintGame(race.UpdateCurrentState());
 
         while (true)
         {
-            var userAction = GetAction();
+            var keyTask = GetAction();
+            var delayTask = Task.Delay(100);
+
+            var completedTask = await Task.WhenAny(keyTask, delayTask);
+
+            var userAction = completedTask == keyTask
+                ? keyTask.Result
+                : Race.Enums.UserAction.Err;
 
             if (userAction == Race.Enums.UserAction.Terminate)
             {
@@ -22,8 +28,6 @@ public class View
             var data = race.UpdateCurrentState();
 
             PrintGame(data);
-            var delayTask = Task.Delay(100);
-            delayTask.Wait();
         }
 
         Console.Clear();
@@ -33,34 +37,40 @@ public class View
 
 
 
-    public static Race.Enums.UserAction GetAction()
+    public static async Task<Race.Enums.UserAction> GetAction()
     {
-        if (Console.KeyAvailable)
+        if (!Console.KeyAvailable)
         {
-            var key = Console.ReadKey(true);
-
-
-            return key.Key switch
-            {
-                ConsoleKey.Enter => Race.Enums.UserAction.Start,
-                ConsoleKey.P => Race.Enums.UserAction.Pause,
-                ConsoleKey.Escape => Race.Enums.UserAction.Terminate,
-                ConsoleKey.LeftArrow => Race.Enums.UserAction.Left,
-                ConsoleKey.RightArrow => Race.Enums.UserAction.Right,
-                ConsoleKey.UpArrow => Race.Enums.UserAction.Up,
-                ConsoleKey.DownArrow => Race.Enums.UserAction.Down,
-                ConsoleKey.Spacebar => Race.Enums.UserAction.Action,
-                _ => Race.Enums.UserAction.Err
-            };
+            await Task.Delay(0);
+            return Race.Enums.UserAction.Err;
         }
 
-        return Race.Enums.UserAction.Err;
+        //ConsoleKeyInfo key = default;
+
+        //while (Console.KeyAvailable)
+        //{
+        var key = Console.ReadKey(true);
+        //}
+
+        return key.Key switch
+        {
+            ConsoleKey.Enter => Race.Enums.UserAction.Start,
+            ConsoleKey.P => Race.Enums.UserAction.Pause,
+            ConsoleKey.Escape => Race.Enums.UserAction.Terminate,
+            ConsoleKey.LeftArrow => Race.Enums.UserAction.Left,
+            ConsoleKey.RightArrow => Race.Enums.UserAction.Right,
+            ConsoleKey.UpArrow => Race.Enums.UserAction.Up,
+            ConsoleKey.DownArrow => Race.Enums.UserAction.Down,
+            ConsoleKey.Spacebar => Race.Enums.UserAction.Action,
+            _ => Race.Enums.UserAction.Err
+        };
     }
 
 
     public static void PrintGame(Race.Models.GameInfo gameInfo)
     {
-        Console.Clear();
+        //Console.Clear();
+        Console.SetCursorPosition(0, 0);
         int i = 0;
         foreach (var row in gameInfo.Field)
         {

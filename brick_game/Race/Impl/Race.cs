@@ -32,6 +32,7 @@ public class Race : IModel
         State = State.Start;
         SpaceBetweenCars = 0;
         FenceOffset = 0;
+        UpdateTimeout();
     }
 
 
@@ -265,6 +266,7 @@ public class Race : IModel
         Score += EnemiesCars.RemoveAll(car => car.Points.TrueForAll(p => p.Y >= Options.Height));
         UpdateHighScore();
         UpdateLevel();
+        UpdateTimeout();
     }
 
 
