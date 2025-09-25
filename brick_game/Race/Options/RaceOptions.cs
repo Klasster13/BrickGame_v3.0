@@ -1,11 +1,7 @@
-﻿namespace Race;
+﻿namespace Race.Options;
 
-public class Options
+public static class RaceOptions
 {
-    public const ushort Width = 10;
-    public const ushort Height = 20;
-    public const ushort NextSize = 4;
-
     public const ushort MaxLevelNumber = 10;
     public const ushort PointsPerLevel = 5;
 

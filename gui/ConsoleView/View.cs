@@ -1,8 +1,11 @@
-﻿using Race;
+﻿using Common.Interfaces;
+using Common.Enums;
+using Common.Models;
+using Common.Options;
 
 namespace ConsoleView;
 
-public class View
+public static class View
 {
     public static async Task Start()
     {
@@ -18,9 +21,9 @@ public class View
 
             var userAction = completedTask == keyTask
                 ? keyTask.Result
-                : Race.Enums.UserAction.Err;
+                : UserAction.Err;
 
-            if (userAction == Race.Enums.UserAction.Terminate)
+            if (userAction == UserAction.Terminate)
             {
                 break;
             }
@@ -36,13 +39,12 @@ public class View
     }
 
 
-
-    public static async Task<Race.Enums.UserAction> GetAction()
+    private static async Task<UserAction> GetAction()
     {
         if (!Console.KeyAvailable)
         {
-            await Task.Delay(0);
-            return Race.Enums.UserAction.Err;
+            await Task.Delay(100);
+            return UserAction.Err;
         }
 
         //ConsoleKeyInfo key = default;
@@ -54,24 +56,24 @@ public class View
 
         return key.Key switch
         {
-            ConsoleKey.Enter => Race.Enums.UserAction.Start,
-            ConsoleKey.P => Race.Enums.UserAction.Pause,
-            ConsoleKey.Escape => Race.Enums.UserAction.Terminate,
-            ConsoleKey.LeftArrow => Race.Enums.UserAction.Left,
-            ConsoleKey.RightArrow => Race.Enums.UserAction.Right,
-            ConsoleKey.UpArrow => Race.Enums.UserAction.Up,
-            ConsoleKey.DownArrow => Race.Enums.UserAction.Down,
-            ConsoleKey.Spacebar => Race.Enums.UserAction.Action,
-            _ => Race.Enums.UserAction.Err
+            ConsoleKey.Enter => UserAction.Start,
+            ConsoleKey.P => UserAction.Pause,
+            ConsoleKey.Escape => UserAction.Terminate,
+            ConsoleKey.LeftArrow => UserAction.Left,
+            ConsoleKey.RightArrow => UserAction.Right,
+            ConsoleKey.UpArrow => UserAction.Up,
+            ConsoleKey.DownArrow => UserAction.Down,
+            ConsoleKey.Spacebar => UserAction.Action,
+            _ => UserAction.Err
         };
     }
 
 
-    public static void PrintGame(Race.Models.GameInfo gameInfo)
+    private static void PrintGame(State gameInfo)
     {
         //Console.Clear();
         Console.SetCursorPosition(0, 0);
-        int i = 0;
+        var i = 0;
         foreach (var row in gameInfo.Field)
         {
             Console.Write($"{i}{(i < 10 ? " " : "")}");
@@ -84,18 +86,15 @@ public class View
         }
         Console.Write("  0 1 2 3 4 5 6 7 8 9");
 
-        Console.SetCursorPosition(Options.Width * 2 + 10, 0);
+        Console.SetCursorPosition(CommonOptions.Width * 2 + 10, 0);
         Console.WriteLine($"Score: {gameInfo.Score}");
-        Console.SetCursorPosition(Options.Width * 2 + 10, 2);
+        Console.SetCursorPosition(CommonOptions.Width * 2 + 10, 2);
         Console.WriteLine($"HighScore: {gameInfo.HighScore}");
-        Console.SetCursorPosition(Options.Width * 2 + 10, 4);
+        Console.SetCursorPosition(CommonOptions.Width * 2 + 10, 4);
         Console.WriteLine($"Level: {gameInfo.Level}");
-        Console.SetCursorPosition(Options.Width * 2 + 10, 6);
+        Console.SetCursorPosition(CommonOptions.Width * 2 + 10, 6);
         Console.WriteLine($"Speed: {gameInfo.Speed}");
-        Console.SetCursorPosition(Options.Width * 2 + 10, 8);
+        Console.SetCursorPosition(CommonOptions.Width * 2 + 10, 8);
         Console.WriteLine($"Pause: {gameInfo.Pause}");
-        //DEBUG
-        Console.SetCursorPosition(Options.Width * 2 + 10, 10);
-        Console.WriteLine($"State: {gameInfo.State}");
     }
 }

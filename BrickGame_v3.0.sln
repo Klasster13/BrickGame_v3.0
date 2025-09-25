@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Race", "brick_game\Race\Rac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleView", "gui\ConsoleView\ConsoleView.csproj", "{366CAD76-24DE-4454-A8F1-072456EE165C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebController", "WebController\WebController.csproj", "{9B62B8BF-53FA-4E79-AB6D-2EC6A6595226}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{3F4D6196-B609-48A9-804E-22FF53FFC16F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{366CAD76-24DE-4454-A8F1-072456EE165C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{366CAD76-24DE-4454-A8F1-072456EE165C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{366CAD76-24DE-4454-A8F1-072456EE165C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B62B8BF-53FA-4E79-AB6D-2EC6A6595226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B62B8BF-53FA-4E79-AB6D-2EC6A6595226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B62B8BF-53FA-4E79-AB6D-2EC6A6595226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B62B8BF-53FA-4E79-AB6D-2EC6A6595226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F4D6196-B609-48A9-804E-22FF53FFC16F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F4D6196-B609-48A9-804E-22FF53FFC16F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F4D6196-B609-48A9-804E-22FF53FFC16F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F4D6196-B609-48A9-804E-22FF53FFC16F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

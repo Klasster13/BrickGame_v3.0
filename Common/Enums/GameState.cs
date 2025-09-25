@@ -1,11 +1,11 @@
-﻿namespace Race.Enums;
+﻿namespace Common.Enums;
 
-public enum State
+public enum GameState
 {
     Start = 0,
     Moving,
     Shifting,
     Pause,
     GameOver,
-    Exit_state
+    Exit
 }

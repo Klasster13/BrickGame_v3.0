@@ -1,4 +1,4 @@
-﻿namespace Race.Enums;
+﻿namespace Common.Enums;
 
 public enum UserAction
 {

@@ -19,19 +19,19 @@ internal class Car
     }
 
 
-    public void GeneratePoints(bool isEnemy = false)
+    private void GeneratePoints(bool isEnemy = false)
     {
         var rnd = new Random();
         var dx = rnd.NextDouble() >= 0.5 ? 0 : 3;
 
-        for (int i = 0; i < Body.Length; i++)
+        for (var i = 0; i < Body.Length; i++)
         {
-            for (int j = 0; j < Body[i].Length; j++)
+            for (var j = 0; j < Body[i].Length; j++)
             {
                 if (Body[i][j] == false) { continue; }
 
-                int y = isEnemy ? 0 - (Body.Length - i) : Options.Height - (Body.Length - i);
-                int x = Options.Width / 2 - (Body[i].Length - j) + dx;
+                var y = isEnemy ? 0 - (Body.Length - i) : Common.Options.CommonOptions.Height - (Body.Length - i);
+                var x = Common.Options.CommonOptions.Width / 2 - (Body[i].Length - j) + dx;
                 Points.Add((y, x));
             }
         }
