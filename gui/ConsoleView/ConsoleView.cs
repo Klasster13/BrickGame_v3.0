@@ -5,12 +5,13 @@ using Common.Options;
 
 namespace ConsoleView;
 
-public static class View
+public class ConsoleView(IModel model) : IView
 {
-    public static async Task Start()
+    private readonly IModel _model = model;
+
+    public async Task StartAsync()
     {
-        IModel race = new Race.Impl.Race();
-        PrintGame(race.UpdateCurrentState());
+        PrintGame(_model.UpdateCurrentState());
 
         while (true)
         {
@@ -27,9 +28,9 @@ public static class View
             {
                 break;
             }
-            race.UserInput(userAction, false);
-            var data = race.UpdateCurrentState();
+            _model.UserInput(userAction, false);
 
+            var data = _model.UpdateCurrentState();
             PrintGame(data);
         }
 
@@ -38,8 +39,9 @@ public static class View
         Console.ReadKey();
     }
 
+    public async Task StopAsync() => await Task.CompletedTask;
 
-    private static async Task<UserAction> GetAction()
+    private async static Task<UserAction> GetAction()
     {
         if (!Console.KeyAvailable)
         {

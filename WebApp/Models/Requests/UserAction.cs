@@ -1,4 +1,4 @@
-﻿namespace WebController.Models.Requests;
+﻿namespace WebApp.Models.Requests;
 
 public class UserAction
 {

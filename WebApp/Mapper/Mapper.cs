@@ -1,4 +1,4 @@
-﻿using WebController.Models;
+﻿using WebApp.Models;
 
 namespace WebController.Mapper;
 

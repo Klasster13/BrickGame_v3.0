@@ -1,4 +1,4 @@
-﻿namespace WebController.Models.Responses;
+﻿namespace WebApp.Models.Responses;
 
 public class GameInfo(int id, string name)
 {

@@ -1,21 +1,24 @@
 ﻿using Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.ComponentModel.DataAnnotations;
-using WebController.Models.Requests;
-using WebController.Models.Responses;
-using static System.Collections.Specialized.BitVector32;
+using WebApp.Models.Requests;
+using WebApp.Models.Responses;
 
-namespace WebController.Controllers;
+namespace WebApp.Controllers;
 
-[Route("api")]
+[Route("api/[controller]")]
 [ApiController]
-public class WebController(ILogger<WebController> logger) : ControllerBase
+public class WebController : ControllerBase
 {
-    private readonly ILogger<WebController> _logger = logger;
-    private IModel? _model;
+    private readonly ILogger<WebController> _logger;
+    private IModel _model;
 
 
+    public WebController(IModel model, ILogger<WebController> logger)
+    {
+        _logger = logger;
+        _model = model;
+    }
     /// <summary>
     /// Get list of available games
     /// </summary>
@@ -175,6 +178,7 @@ public class WebController(ILogger<WebController> logger) : ControllerBase
             }
 
             var state = _model.UpdateCurrentState();
+
             return new GameState(state);
         }
         catch (Exception ex)
